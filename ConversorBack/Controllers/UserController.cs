@@ -1,6 +1,5 @@
 ﻿using ConversorBack.DTOs;
-using ConversorBack.Services.Interfaces;
-using ConversorDeMonedaBackEnd2.Services.Implementations;
+using ConversorBack.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConversorBack.Controllers
@@ -9,14 +8,14 @@ namespace ConversorBack.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly UserService _userService;
+        public UserController(UserService userService)
         {
             _userService = userService;
         }
 
-        [HttpPost]
-        public IActionResult CreateUser(UserLoginDto dto)
+        [HttpPost("Register")]
+        public IActionResult CreateUser(UserRegisterDto dto)
         {
             try
             {
@@ -28,11 +27,20 @@ namespace ConversorBack.Controllers
             }
             return Created("User Created!", dto);
         }
-        [HttpPut("{userId}/updateSubscription")]
-        public IActionResult UpdateSubscription(int userId, ActivateSubscriptionDto dto)
+        [HttpPut("updateSubscription")]
+        public IActionResult UpdateSubscription(ActivateSubscriptionDto dto)
         {
-            _userService.UpdateUserSubscription(userId, dto);
+            int userID = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier")).Value);
+            _userService.UpdateUserSubscription(userID, dto);
             return Ok("Subscription updated successfully!");
+        }
+
+        [HttpGet("GetSub")]
+        public string GetSub()
+        {
+            int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier")).Value);
+            string sub = _userService.GetSubscription(userId);
+            return sub.ToString();
         }
     }
 }

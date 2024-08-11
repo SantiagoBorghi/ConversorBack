@@ -1,10 +1,8 @@
 ﻿using ConversorBack.Data;
 using ConversorBack.DTOs;
 using ConversorBack.Entities;
-using ConversorBack.Services.Interfaces;
-using ConversorDeMonedaBackEnd2.Services.Implementations;
+using ConversorBack.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace ConversorBack.Controllers
 {
@@ -12,16 +10,16 @@ namespace ConversorBack.Controllers
     [ApiController]
     public class CurrencyController : ControllerBase
     {
-        private readonly ICurrencyService _currencyService;
+        private readonly CurrencyService _currencyService;
         private readonly ConversorDeMonedaContext _context;
-        public CurrencyController(ICurrencyService currencyService, ConversorDeMonedaContext context)
+        public CurrencyController(CurrencyService currencyService, ConversorDeMonedaContext context)
         {
             _currencyService = currencyService;
             _context = context;
         }
 
-        [HttpPost("Create")]
-        public IActionResult Create(CurrencyForCreationDto dto)
+        [HttpPost("CreateCurrency")]
+        public IActionResult CreateCurrency(CurrencyForCreationDto dto)
         {
             try
             {
@@ -34,8 +32,8 @@ namespace ConversorBack.Controllers
             return Created("Currency Created!", dto);
         }
 
-        [HttpPut("Update")]
-        public IActionResult Update(int currencyId, CurrencyForCreationDto dto)
+        [HttpPut("UpdateCurrency")]
+        public IActionResult UpdateCurrency(int currencyId, CurrencyForCreationDto dto)
         {
             try
             {
@@ -48,7 +46,7 @@ namespace ConversorBack.Controllers
             return Created("Currency Updated!", dto);
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete("DeleteCurrency")]
         public IActionResult DeleteCurrency(int currencyId)
         {
             _currencyService.DeleteCurrency(currencyId);
@@ -78,6 +76,33 @@ namespace ConversorBack.Controllers
             {
                 string result = "The user has no more conversions";
                 return Ok(result);
+            }
+        }
+        [HttpGet("GetCurrency")]
+        public IActionResult GetCurrency(int currencyId)
+        {
+            try
+            {
+                Currency currency = _currencyService.GetCurrency(currencyId);
+                return Ok(currency);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("GetAllCurrencies")]
+        public ActionResult<List<Currency>> GetAllCurrencies()
+        {
+            try
+            {
+                var currencies = _currencyService.GetAllCurrencies();
+                return Ok(currencies);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

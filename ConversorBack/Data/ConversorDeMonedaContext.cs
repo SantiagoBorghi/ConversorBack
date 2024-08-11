@@ -56,7 +56,7 @@ namespace ConversorBack.Data
             {
                 Id = 3,
                 Type = "Pro",
-                MaxConversions = 99999999999999999
+                MaxConversions = 999999999
             };
 
             modelBuilder.Entity<Currency>().HasData(

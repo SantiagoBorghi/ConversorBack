@@ -8,8 +8,8 @@ namespace ConversorBack.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int SubscriptionId { get; set; }
-        public ulong TotalConversions { get; set; }
+        public int? SubscriptionId { get; set; }
+        public ulong? TotalConversions { get; set; }
         [Required]
         public string Username { get; set; }
         [Required]

@@ -1,13 +1,10 @@
 ﻿using ConversorBack.Data;
 using ConversorBack.DTOs;
 using ConversorBack.Entities;
-using ConversorBack.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System;
 
-namespace ConversorBack.Services.Implementations
+namespace ConversorBack.Services
 {
-    public class CurrencyService : ICurrencyService
+    public class CurrencyService
     {
         private readonly ConversorDeMonedaContext _context;
         public CurrencyService(ConversorDeMonedaContext context)
@@ -51,6 +48,16 @@ namespace ConversorBack.Services.Implementations
         {
             double result = amount * dto.ICfromConvert / dto.ICtoConvert;
             return result;
+        }
+
+        public Currency GetCurrency(int currencyID)
+        {
+            var currency = _context.Currencys.Find(currencyID);
+            return currency;
+        }
+        public List<Currency> GetAllCurrencies()
+        {
+            return _context.Currencys.ToList();
         }
     }
 }

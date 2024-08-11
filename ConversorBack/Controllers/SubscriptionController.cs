@@ -1,5 +1,4 @@
-﻿using ConversorBack.Services.Interfaces;
-using ConversorDeMonedaBackEnd2.DTOs;
+﻿using ConversorBack.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConversorBack.Controllers
@@ -8,9 +7,9 @@ namespace ConversorBack.Controllers
     [Route("api/subscription")]
     public class SubscriptionController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
-        public SubscriptionController(IUserService userService)
+        public SubscriptionController(UserService userService)
         {
             _userService = userService;
         }

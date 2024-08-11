@@ -1,6 +1,5 @@
 using ConversorBack.Data;
-using ConversorBack.Services.Implementations;
-using ConversorBack.Services.Interfaces;
+using ConversorBack.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -38,7 +37,7 @@ builder.Services.AddSwaggerGen(setupAction =>
     {
         Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
-        Description = "Acá pegar el token generado al loguearse."
+        Description = "Acï¿½ pegar el token generado al loguearse."
     });
 
     setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -49,7 +48,7 @@ builder.Services.AddSwaggerGen(setupAction =>
                 Reference = new OpenApiReference
                 {
                     Type = ReferenceType.SecurityScheme,
-                    Id = "ConversorApiBearerAuth" } //Tiene que coincidir con el id seteado arriba en la definición
+                    Id = "ConversorApiBearerAuth" } //Tiene que coincidir con el id seteado arriba en la definiciï¿½n
                 }, new List<string>() }
     });
 });
@@ -76,8 +75,8 @@ builder.Services
     });
 
 #region DependencyInjections
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ICurrencyService, CurrencyService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<CurrencyService>();
 #endregion
 
 var app = builder.Build();
