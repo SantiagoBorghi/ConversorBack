@@ -1,5 +1,5 @@
 ﻿using ConversorBack.DTOs;
-using ConversorBack.Services.Interfaces;
+using ConversorBack.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,9 +13,9 @@ namespace ConversorBack.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
-        public AuthController(IConfiguration config, IUserService userService)
+        public AuthController(IConfiguration config, UserService userService)
         {
             _config = config;
             _userService = userService;
