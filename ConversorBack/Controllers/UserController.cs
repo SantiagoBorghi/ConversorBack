@@ -1,6 +1,8 @@
 ﻿using ConversorBack.DTOs;
+using ConversorBack.Entities;
 using ConversorBack.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ConversorBack.Controllers
 {

@@ -37,9 +37,11 @@ namespace ConversorBack.Controllers
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
 
-            var claimsForToken = new List<Claim>();
-            claimsForToken.Add(new Claim("sub", user.Id.ToString()));
-            claimsForToken.Add(new Claim("nombre", user.Username));
+            var claimsForToken = new List<Claim>()
+            {
+                new Claim("nombre", user.Username),
+                new Claim("sub", user.Id.ToString())
+            };
 
             var jwtSecurityToken = new JwtSecurityToken(
               _config["Authentication:Issuer"],
