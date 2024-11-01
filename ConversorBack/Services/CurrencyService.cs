@@ -44,9 +44,9 @@ namespace ConversorBack.Services
             _context.SaveChanges();
         }
 
-        public double Convert(double amount, ConvertDto dto)
+        public double Convert(ConvertDto dto)
         {
-            double result = amount * dto.ICfromConvert / dto.ICtoConvert;
+            double result = dto.amount * dto.ICfromConvert / dto.ICtoConvert;
             return result;
         }
 
@@ -59,5 +59,7 @@ namespace ConversorBack.Services
         {
             return _context.Currencys.ToList();
         }
+
+
     }
 }

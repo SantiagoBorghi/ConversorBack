@@ -54,30 +54,43 @@ namespace ConversorBack.Controllers
             return Ok(new { mensaje = "Currency successfully removed!" });
         }
 
-        [HttpGet("Convert")]
-        public IActionResult Convert(int userId, [FromQuery] double amount, [FromQuery] ConvertDto dto)
+        [HttpPost("Convert")] // Cambiado de HttpGet a HttpPost
+        public IActionResult Convert([FromBody] ConvertDto dto) // Cambiado [FromQuery] a [FromBody]
         {
-            User? user = _context.Users.SingleOrDefault(u => u.Id == userId);
-            if (user.TotalConversions != 0)
+            int userID = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier")).Value);
+            User? user = _context.Users.SingleOrDefault(u => u.Id == userID);
+            if (user != null && user.TotalConversions > 0)
             {
                 try
                 {
-                    double result = _currencyService.Convert(amount, dto);
+                    double result = _currencyService.Convert(dto);
                     user.TotalConversions -= 1;
                     _context.SaveChanges();
                     return Ok(result);
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex);
+                    return BadRequest(ex.Message);
                 }
             }
             else
             {
-                string result = "The user has no more conversions";
-                return Ok(result);
+                return BadRequest("The user has no more conversions.");
             }
         }
+
+        [HttpGet("GetIndex")]
+        public IActionResult GetCurrencyIndex([FromQuery] string code)
+        {
+            var currency = _context.Currencys.SingleOrDefault(c => c.Code == code);
+            if (currency == null)
+            {
+                return NotFound("Currency not found");
+            }
+
+            return Ok(new { index = currency.IC });
+        }
+
         [HttpGet("GetCurrency")]
         public IActionResult GetCurrency(int currencyId)
         {

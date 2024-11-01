@@ -15,7 +15,6 @@ namespace ConversorBack.Services
         {
             return _context.Users.FirstOrDefault(p => p.Email == email && p.Password == password);
         }
-
         public void Create(UserRegisterDto dto)
         {
             User newUser = new User()
@@ -56,7 +55,6 @@ namespace ConversorBack.Services
                 return subscription.Type.ToString();
             }
         }
-
         public void UseConversions(int userId)
         {
             var user = _context.Users.Find(userId);
