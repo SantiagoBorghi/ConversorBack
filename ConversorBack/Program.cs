@@ -77,6 +77,7 @@ builder.Services
 #region DependencyInjections
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CurrencyService>();
+builder.Services.AddScoped<SubscriptionService>();
 #endregion
 
 var app = builder.Build();
