@@ -1,7 +1,10 @@
-﻿using ConversorBack.DTOs;
+﻿using ConversorBack.Data;
+using ConversorBack.DTOs;
 using ConversorBack.Entities;
+using ConversorBack.Entities.Enums;
 using ConversorBack.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace ConversorBack.Controllers
@@ -11,9 +14,11 @@ namespace ConversorBack.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
-        public UserController(UserService userService)
+        private readonly ConversorDeMonedaContext _context;
+        public UserController(UserService userService, ConversorDeMonedaContext context)
         {
             _userService = userService;
+            _context = context;
         }
 
         [HttpPost("Register")]
@@ -43,6 +48,14 @@ namespace ConversorBack.Controllers
             int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier")).Value);
             string sub = _userService.GetSubscription(userId);
             return sub.ToString();
+        }
+
+        [HttpGet("GetRole")]
+        public string GetRole()
+        {
+            int userID = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier")).Value);
+            string role = _userService.GetRole(userID);
+            return role;
         }
     }
 }

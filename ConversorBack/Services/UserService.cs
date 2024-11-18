@@ -68,5 +68,15 @@ namespace ConversorBack.Services
                 throw new Exception("Usuario no encontrado.");
             }
         }
+
+        public string GetRole(int userId)
+        {
+            User user = _context.Users.First(u => u.Id == userId);
+            if (user == null)
+            {
+                return "User not found";
+            }
+            return user.Role.ToString();
+        }
     }
 }

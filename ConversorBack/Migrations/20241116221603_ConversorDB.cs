@@ -52,7 +52,8 @@ namespace ConversorBack.Migrations
                     TotalConversions = table.Column<ulong>(type: "INTEGER", nullable: true),
                     Username = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
-                    Password = table.Column<string>(type: "TEXT", nullable: false)
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    Role = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,9 +65,14 @@ namespace ConversorBack.Migrations
                 columns: new[] { "Id", "Code", "IC", "Name", "Symbol" },
                 values: new object[,]
                 {
-                    { 1, "ARS", 0.002, "Peso Argentino", "$" },
+                    { 1, "ARS", 0.0050000000000000001, "Peso Argentino", "$" },
                     { 2, "USD", 1.0, "US Dollar", "$" },
-                    { 3, "EUR", 1.0900000000000001, "Euro", "€" }
+                    { 3, "EUR", 1.1000000000000001, "Euro", "€" },
+                    { 4, "GBP", 1.3, "British Pound", "£" },
+                    { 5, "JPY", 0.0070000000000000001, "Japanese Yen", "¥" },
+                    { 6, "CAD", 0.75, "Canadian Dollar", "$" },
+                    { 7, "AUD", 0.71999999999999997, "Australian Dollar", "$" },
+                    { 8, "CHF", 1.05, "Swiss Franc", "$" }
                 });
 
             migrationBuilder.InsertData(
@@ -76,8 +82,13 @@ namespace ConversorBack.Migrations
                 {
                     { 1, 10ul, "Free" },
                     { 2, 100ul, "Standard" },
-                    { 3, 999999999ul, "Pro" }
+                    { 3, 999ul, "Pro" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Email", "Password", "Role", "SubscriptionId", "TotalConversions", "Username" },
+                values: new object[] { 1, "admin@admin.com", "123456", 0, 3, 999ul, "admin" });
         }
 
         /// <inheritdoc />

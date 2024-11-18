@@ -33,20 +33,20 @@ namespace ConversorBack.Controllers
         }
 
         [HttpPut("UpdateCurrency")]
-        public IActionResult UpdateCurrency(int currencyId, CurrencyForCreationDto dto)
+        public IActionResult UpdateCurrency(CurrencyForUpdateDto dto)
         {
             try
             {
-                _currencyService.UpdateCurrency(currencyId, dto);
+                _currencyService.UpdateCurrency(dto);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
             return Created("Currency Updated!", dto);
         }
 
-        [HttpDelete("DeleteCurrency")]
+        [HttpDelete("DeleteCurrency/{currencyId}")]
         public IActionResult DeleteCurrency(int currencyId)
         {
             _currencyService.DeleteCurrency(currencyId);
@@ -64,8 +64,12 @@ namespace ConversorBack.Controllers
                 try
                 {
                     double result = _currencyService.Convert(dto);
-                    user.TotalConversions -= 1;
-                    _context.SaveChanges();
+                    if (user.SubscriptionId == 1 || user.SubscriptionId == 2)
+                    {
+                        user.TotalConversions -= 1;
+                        _context.SaveChanges();
+                        return Ok(result);
+                    }
                     return Ok(result);
                 }
                 catch (Exception ex)
@@ -91,17 +95,21 @@ namespace ConversorBack.Controllers
             return Ok(new { index = currency.IC });
         }
 
-        [HttpGet("GetCurrency")]
+        [HttpGet("GetCurrencyById/{currencyId}")]
         public IActionResult GetCurrency(int currencyId)
         {
             try
             {
                 Currency currency = _currencyService.GetCurrency(currencyId);
+                if (currency == null)
+                {
+                    return NotFound("Currency not found.");
+                }
                 return Ok(currency);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 

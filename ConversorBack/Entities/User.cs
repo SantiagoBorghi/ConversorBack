@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using ConversorBack.Entities.Enums;
 
 namespace ConversorBack.Entities
 {
@@ -16,6 +17,8 @@ namespace ConversorBack.Entities
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
+        [Required]
+        public Role Role { get; set; } = Role.USER;
 
     }
 }

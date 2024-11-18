@@ -18,15 +18,20 @@ namespace ConversorBack.Services
                 Code = dto.Code,
                 Name = dto.Name,
                 Symbol = dto.Symbol,
-                IC = dto.ConvertibilityIndex
+                IC = dto.ic
             };
             _context.Currencys.Add(newCurrency);
             _context.SaveChanges();
         }
 
-        public void UpdateCurrency(int currencyId, CurrencyForCreationDto dto)
+        public void UpdateCurrency(CurrencyForUpdateDto dto)
         {
-            var existingCurrency = _context.Currencys.Find(currencyId);
+            var existingCurrency = _context.Currencys.Find(dto.Id);
+
+            if (existingCurrency == null)
+            {
+                throw new Exception("Currency not found");
+            }
 
             existingCurrency.Code = dto.Code;
             existingCurrency.Name = dto.Name;

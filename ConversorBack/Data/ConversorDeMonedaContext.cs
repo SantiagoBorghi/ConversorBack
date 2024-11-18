@@ -22,7 +22,7 @@ namespace ConversorBack.Data
                 Name = "Peso Argentino",
                 Code = "ARS",
                 Symbol = "$",
-                IC = 0.002
+                IC = 0.005
             };
             Currency USDollar = new Currency()
             {
@@ -38,8 +38,49 @@ namespace ConversorBack.Data
                 Name = "Euro",
                 Code = "EUR",
                 Symbol = "€",
-                IC = 1.09
+                IC = 1.1
             };
+            Currency britishPound = new Currency()
+            {
+                Id = 4,
+                Name = "British Pound",
+                Code = "GBP",
+                Symbol = "£",
+                IC = 1.3
+            };
+            Currency japaneseYen = new Currency()
+            {
+                Id = 5,
+                Name = "Japanese Yen",
+                Code = "JPY",
+                Symbol = "¥",
+                IC = 0.007
+            };
+            Currency canadianDollar = new Currency()
+            {
+                Id = 6,
+                Name = "Canadian Dollar",
+                Code = "CAD",
+                Symbol = "$",
+                IC = 0.75
+            };
+            Currency australianDollar = new Currency()
+            {
+                Id = 7,
+                Name = "Australian Dollar",
+                Code = "AUD",
+                Symbol = "$",
+                IC = 0.72
+            };
+            Currency swissFranc = new Currency()
+            {
+                Id = 8,
+                Name = "Swiss Franc",
+                Code = "CHF",
+                Symbol = "$",
+                IC = 1.05
+            };
+
             Subscription Free = new Subscription()
             {
                 Id = 1,
@@ -56,13 +97,25 @@ namespace ConversorBack.Data
             {
                 Id = 3,
                 Type = "Pro",
-                MaxConversions = 999999999
+                MaxConversions = 999
+            };
+            User admin = new User()
+            {
+                Id = 1,
+                SubscriptionId = 3,
+                TotalConversions = 999,
+                Username = "admin",
+                Email = "admin@admin.com",
+                Password = "123456",
+                Role = ConversorBack.Entities.Enums.Role.ADMIN
             };
 
             modelBuilder.Entity<Currency>().HasData(
-               pesoArgentino, USDollar, euro);
+               pesoArgentino, USDollar, euro, britishPound, japaneseYen, canadianDollar, australianDollar, swissFranc);
             modelBuilder.Entity<Subscription>().HasData(
                Free, Standard, Pro);
+            modelBuilder.Entity<User>().HasData(
+                admin);
 
             base.OnModelCreating(modelBuilder);
         }

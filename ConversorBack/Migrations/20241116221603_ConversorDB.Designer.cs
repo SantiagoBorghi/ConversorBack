@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConversorBack.Migrations
 {
     [DbContext(typeof(ConversorDeMonedaContext))]
-    [Migration("20240811021240_ConversorDB")]
+    [Migration("20241116221603_ConversorDB")]
     partial class ConversorDB
     {
         /// <inheritdoc />
@@ -50,7 +50,7 @@ namespace ConversorBack.Migrations
                         {
                             Id = 1,
                             Code = "ARS",
-                            IC = 0.002,
+                            IC = 0.0050000000000000001,
                             Name = "Peso Argentino",
                             Symbol = "$"
                         },
@@ -66,9 +66,49 @@ namespace ConversorBack.Migrations
                         {
                             Id = 3,
                             Code = "EUR",
-                            IC = 1.0900000000000001,
+                            IC = 1.1000000000000001,
                             Name = "Euro",
                             Symbol = "€"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "GBP",
+                            IC = 1.3,
+                            Name = "British Pound",
+                            Symbol = "£"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Code = "JPY",
+                            IC = 0.0070000000000000001,
+                            Name = "Japanese Yen",
+                            Symbol = "¥"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Code = "CAD",
+                            IC = 0.75,
+                            Name = "Canadian Dollar",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Code = "AUD",
+                            IC = 0.71999999999999997,
+                            Name = "Australian Dollar",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Code = "CHF",
+                            IC = 1.05,
+                            Name = "Swiss Franc",
+                            Symbol = "$"
                         });
                 });
 
@@ -105,7 +145,7 @@ namespace ConversorBack.Migrations
                         new
                         {
                             Id = 3,
-                            MaxConversions = 999999999ul,
+                            MaxConversions = 999ul,
                             Type = "Pro"
                         });
                 });
@@ -124,6 +164,9 @@ namespace ConversorBack.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int?>("SubscriptionId")
                         .HasColumnType("INTEGER");
 
@@ -137,6 +180,18 @@ namespace ConversorBack.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "admin@admin.com",
+                            Password = "123456",
+                            Role = 0,
+                            SubscriptionId = 3,
+                            TotalConversions = 999ul,
+                            Username = "admin"
+                        });
                 });
 #pragma warning restore 612, 618
         }
